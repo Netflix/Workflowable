@@ -1,0 +1,2 @@
+$('.action_options_fields.active').html("<%= escape_javascript(render :partial=>"options", :locals => {:options=>@options, context: params[:context]}) %>");  
+$('.action_options_fields.active').removeClass("active");

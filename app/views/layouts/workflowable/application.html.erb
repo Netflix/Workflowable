@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Workflowable</title>
+    <%= stylesheet_link_tag    "workflowable/application", media: "all" %>
+    <%= javascript_include_tag "workflowable/application" %>
+    <%= csrf_meta_tags %>
+  </head>
+  <body>
+    <nav class="top-bar hide-for-small" data-topbar="">
+      <ul class="title-area">
+        <li class="name">
+          <h1><%= link_to "Workflowable", workflows_path %></h1>
+        </li>
+      </ul>
+    </nav>
+    <div class="row">
+      <div class="large-12 columns">
+        <%= yield %>
+      </div>
+    </div>
+  </body>
+</html>

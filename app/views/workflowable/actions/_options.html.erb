@@ -1,0 +1,39 @@
+<%= fields_for "#{context}[options]", OpenStruct.new({}) do |options_form| %>
+  <% options.each do |key, value| %>
+    <div class="field">
+      <div class="row">
+        <div class="medium-5 columns">
+          <%= label_tag do  %>
+            Specify Value:
+            <%= value.try(:[],:name) || key.to_s %>
+            <%= "(required)" if value[:required] == true %>
+          <% end %>
+          <% if value[:type] == :choice %>
+            <%= options_form.select "#{key}][value", value[:choices].collect{|v| [v[:name],v.to_json]},{ include_blank: true, selected: value[:value].to_json} %>
+          <% elsif value[:type] == :boolean %>
+            <%= options_form.check_box "#{key}][value", :checked=>value[:value] == "1" %>
+          <% else %>
+            <%= options_form.text_field "#{key}][value", :value=>value[:value] %>
+          <% end %>
+        </div>
+        <div class="medium-1 columns">
+          <br/>
+          <b>OR</b>
+        </div>
+        <div class="medium-6 columns">
+          <%= label_tag do  %>
+            Default Value:
+            <%= value.try(:[],:name) || key.to_s %>
+          <% end %>
+          <% if value[:type] == :choice %>
+            <%= options_form.select "#{key}][default", value[:choices].collect{|v| [v[:name],v.to_json]},{ include_blank: true, selected: value[:default].to_json} %>
+          <% elsif value[:type] == :boolean %>
+            <%= options_form.check_box "#{key}][default", :checked=>value[:default] == "1" %>
+          <% else %>
+            <%= options_form.text_field "#{key}][default", :value=>value[:default] %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+<% end %>

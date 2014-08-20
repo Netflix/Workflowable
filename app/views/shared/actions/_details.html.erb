@@ -1,0 +1,30 @@
+<% if actions.count == 0 %>
+  <b>No actions defined</b>
+<% else %>
+  <% actions.each do |action| %>
+    <h6><b><%= action.name %></b>
+      (<%= action.action_plugin %>)</h6>
+    <table>
+      <thead>
+        <tr>
+          <th>Option</th>
+          <th>Value Specified</th>
+          <th>Default Value</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if action.options.present? %>
+          <% action.options.each do |k,v| %>
+            <tr>
+              <td><%= k %></td>
+              <td><%= v.try(:[],:value) %></td>
+              <td><%= v.try(:[],:default) %></td>
+            </tr>
+          <% end %>
+        <% else %>
+          <tr ><td colspan="3">No options defined</td></tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% end %>
+<% end %>

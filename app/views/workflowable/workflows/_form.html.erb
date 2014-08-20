@@ -1,0 +1,57 @@
+<%= nested_form_for(@workflow) do |f| %>
+  <% if @workflow.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@workflow.errors.count, "error") %>
+        prohibited this workflow from being saved:</h2>
+      <ul>
+        <% @workflow.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div data-magellan-expedition="fixed">
+    <dl class="sub-nav">
+      <dd data-magellan-arrival="basic"><a href="#basic">Basic Details</a></dd>
+      <dd data-magellan-arrival="global_actions"><a href="#global_actions">Global Actions</a></dd>
+      <dd data-magellan-arrival="stages"><a href="#stages">Stages</a></dd>
+    </dl>
+  </div>
+  <a name="basic"></a>
+  <fieldset>
+    <legend data-magellan-destination="basic">Basic Details</legend>
+    <div class="field">
+      <%= f.label :name %>
+      <%= f.text_field :name %>
+    </div>
+  </fieldset>
+  <hr/>
+  <a name="global_actions"></a>
+  <h4 data-magellan-destination="global_actions">Global Actions<br/><small>These actions will be run every time the stage changes</small></h4>
+  <%= render partial: 'shared/actions/fields', locals: {f: f, label: 'global action', association: :actions} %>
+  <hr/>
+  <a name="stages"></a>
+  <h4 data-magellan-destination="stages">Stages<br/><small>The available states for the workflow</small></h4>
+  <%= f.fields_for :stages do |stage_form| %>
+    <fieldset>
+      <legend>Stage Details -
+        <%= stage_form.link_to_remove "Remove this stage" %></legend>
+      <div class="field">
+        <%= stage_form.label :name %>
+        <%= stage_form.text_field :name %>
+      </div>
+      <hr/>
+      <h5>Before Actions<br/><small>These actions will be run when leaving this stage</small></h5>
+      <%= render partial: 'shared/actions/fields', locals: {f: stage_form, association: :before_actions, label: 'before action'} %>
+      <hr/>
+      <h5>After Actions<br/><small>These actions will run before entering this stage</small></h5>
+      <%= render partial: 'shared/actions/fields', locals: {f: stage_form, association: :after_actions, label: 'after action'} %>
+      <hr/>
+    </fieldset>
+    <br/>
+  <% end %>
+  <br/>
+  <p><%= f.link_to_add "Add a stage", :stages %></p>
+  <%= f.submit class: "button" %>
+  <%= link_to 'Back', workflows_path, class: "button secondary" %>
+<% end %>

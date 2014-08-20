@@ -1,0 +1,34 @@
+<%= nested_form_for(@workflow) do |f| %>
+  <% if @workflow.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@workflow.errors.count, "error") %>
+        prohibited this workflow from being saved:</h2>
+      <ul>
+        <% @workflow.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <h2>Workflow Options</h2>
+  <div class="field">
+    <%= f.label :initial_stage %>
+    <%= f.collection_select :initial_stage_id, @workflow.stages, :id, :name, include_blank: true %>
+  </div>
+  <h2>Stage Transitions</h2>
+  <%= f.fields_for :stages do |stage_form| %>
+    <div class="field">
+      <h3><%= stage_form.object.name %></h3>
+      <%= stage_form.fields_for :stage_next_steps do |next_steps_form| %>
+        <div class="field">
+          <%= next_steps_form.label :next_step %>
+          <%= next_steps_form.collection_select :next_stage_id, @workflow.stages, :id, :name, include_blank: true %>
+        </div>
+        <%= next_steps_form.link_to_remove "Remove this step" %>
+      <% end %>
+      <p><%= stage_form.link_to_add "Add a next step", :stage_next_steps %></p>
+    </div>
+  <% end %>
+  <%= f.submit class: "button" %>
+  <%= link_to 'Back', workflows_path, class: "button secondary" %>
+<% end %>

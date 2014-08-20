@@ -1,0 +1,49 @@
+<h1>Workflow:
+  <%= @workflow.name %></h1>
+<h5>Global Actions</h5>
+<dl class="accordion" data-accordion>
+  <dd>
+    <a href="<%= "#workflow_#{@workflow.id}_actions" %>">Actions (<%= @workflow.actions.count %>)</a>
+    <div id="<%= "workflow_#{@workflow.id}_actions" %>" class="content">
+      <%= render partial: 'shared/actions/details', locals: {actions: @workflow.actions, uuid: "workflow_#{@workflow.id}_actions"} %>
+    </div>
+  </dd>
+</dl>
+<% @workflow.stages.each do |stage| %>
+  <dl class="accordion" data-accordion>
+    <dd>
+      <a href="#<%= "stage_#{stage.id}" %>"><%= stage.name %></a>
+      <div id="<%= "stage_#{stage.id}" %>" class="content">
+        <dl class="tabs" data-tab>
+          <dd class="active"><a href="<%= "#stage_#{stage.id}_before" %>">Before Actions (<%= stage.before_actions.count %>)</a></dd>
+          <dd><a href="<%= "#stage_#{stage.id}_after" %>">After Actions (<%= stage.after_actions.count %>)</a></dd>
+          <dd><a href="<%= "#stage_#{stage.id}_next_steps" %>">Next Steps (<%= stage.next_steps.count %>)</a></dd>
+        </dl>
+        <div class="tabs-content">
+          <div id="<%= "stage_#{stage.id}_before" %>" class="content active">
+            <%= render partial: 'shared/actions/details', locals: {actions: stage.before_actions, uuid: "stage_#{stage.id}_before"} %>
+          </div>
+          <div id="<%= "stage_#{stage.id}_after" %>" class="content">
+            <%= render partial: 'shared/actions/details', locals: {actions: stage.after_actions, uuid: "stage_#{stage.id}_after"} %>
+          </div>
+          <div id="<%= "stage_#{stage.id}_next_steps" %>" class="content">
+            <% if stage.next_steps.count == 0 %>
+              <b>No next steps defined</b>
+            <% else %>
+              <% stage.next_steps.each do |step| %>
+                <%= step.name %><br/>
+              <% end %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </dd>
+  </dl>
+<% end %>
+<br/>
+<%= link_to "Edit", edit_workflow_path(@workflow), class:"button" %>
+<%= link_to "Configure Stages", configure_stages_workflow_path(@workflow), class:"button" %>
+<%= link_to "Back", workflows_path , class:"button secondary"%>
+<%= content_tag :svg, class: "workflow_diagram", data: {url: stages_workflow_url(@workflow, format: :json)} do %>
+  <g transform="translate(20, 20)" />
+<% end %>

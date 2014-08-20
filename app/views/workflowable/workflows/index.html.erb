@@ -1,0 +1,16 @@
+<table>
+  <tr>
+    <th>Name</th>
+    <th></th>
+  </tr>
+  <% @workflows.each do |workflow| %>
+    <tr>
+      <td><%= link_to workflow.name, workflow %></td>
+      <td>
+        <%= link_to 'Edit', edit_workflow_path(workflow), class: "button tiny" %>
+        <%= link_to 'Destroy', workflow, method: :delete, data: { confirm: 'Are you sure?' }, class: "button tiny alert" %></td>
+    </tr>
+  <% end %>
+</table>
+<br />
+<%= link_to 'New Workflow', new_workflow_path, class: "button" %>

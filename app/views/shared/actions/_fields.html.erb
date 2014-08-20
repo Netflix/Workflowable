@@ -1,0 +1,26 @@
+<%= f.fields_for association do |action_form| %>
+  <fieldset>
+    <legend><%= label.humanize %>
+      details -
+      <%= action_form.link_to_remove "Remove" %></legend>
+    <div class="field">
+      <%= action_form.label :action_name %>
+      <%= action_form.text_field :name %>
+      <%= action_form.label :position %>
+      <%= action_form.text_field :position %>
+    </div>
+    <div class="field">
+      <%= action_form.label :action %>
+      <%= action_form.collection_select :action_plugin, Workflowable::Actions.constants, :to_s, :to_s, {include_blank: true},  {class: "action_plugin_select"} %>
+    </div>
+    <div class="action_options_fields" data-url="<%= options_actions_url %>" data-context="<%= action_form.object_name %>">
+      <% available_options = action_form.object.available_options(action_form.object.options) %>
+      <% if available_options %>
+        <%= render :partial=>"workflowable/actions/options", :locals => {:options=>available_options , context: action_form.object_name } %>
+      <% end %>
+    </div>
+    <br/>
+  </fieldset>
+  <br/>
+<% end %>
+<p><%= f.link_to_add "Add #{label}", association %></p>
