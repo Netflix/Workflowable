@@ -5,7 +5,7 @@
 
 Workflowable is a Ruby gem that allows adding flexible workflow functionality to Ruby on Rails Applications. Workflowable provides an admin interface for configuring workflows, adding stages, triggering automatic actions, etc.
 
-An example of an application using Workflowable is [Scumblr](https://www.github.com/Netlfix/Scumblr)
+An example of an application using Workflowable is [Scumblr](https://www.github.com/Netflix/Scumblr)
 
 ## How do I use Workflowable?
 
