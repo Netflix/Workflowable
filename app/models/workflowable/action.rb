@@ -20,7 +20,7 @@ module Workflowable
     has_many :stage_actions
     has_many :stages, :through=>:stage_actions
     validate :validate_action_plugin
-    validate :name, :uniquness=>true
+    validates :name, :uniqueness=>true
 
     before_save :reject_blank_values
 
