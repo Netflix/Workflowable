@@ -41,10 +41,10 @@
         <%= stage_form.text_field :name %>
       </div>
       <hr/>
-      <h5>Before Actions<br/><small>These actions will be run when leaving this stage</small></h5>
+      <h5>Before Actions<br/><small>These actions will run before entering this stage</small></h5>
       <%= render partial: 'shared/actions/fields', locals: {f: stage_form, association: :before_actions, label: 'before action'} %>
       <hr/>
-      <h5>After Actions<br/><small>These actions will run before entering this stage</small></h5>
+      <h5>After Actions<br/><small>These actions will be run when leaving this stage</small></h5>
       <%= render partial: 'shared/actions/fields', locals: {f: stage_form, association: :after_actions, label: 'after action'} %>
       <hr/>
     </fieldset>
