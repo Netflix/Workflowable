@@ -14,7 +14,7 @@ Gem::Specification.new do |s|
   s.description = "Flexible workflow gem."
 
   s.files = Dir["{app,config,db,lib}/**/*", "LICENSE", "AUTHOR", "Rakefile", "README.md"]
-  s.add_dependency "rails", "~> 4.0.4"
+  s.add_dependency "rails", ">= 4.0"
   s.add_dependency "jquery-rails"
   s.add_dependency "jbuilder"
   s.add_dependency "nested_form"
