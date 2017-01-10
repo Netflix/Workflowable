@@ -16,16 +16,23 @@
 module Workflowable
     class Stage < ActiveRecord::Base
         belongs_to :workflow,  :inverse_of=>:stages
+
         has_many :stage_next_steps, :foreign_key=>:current_stage_id
         has_many :next_steps,
             :through=>:stage_next_steps,
             :class_name=>"Stage",
             :source=>:next_stage
 
+        has_many :stage_previous_steps, :foreign_key=>:next_stage_id, :class_name=>"StageNextStep"
+        has_many :previous_steps,
+            :through=>:stage_previous_steps,
+            :class_name=>"Stage",
+            :source=>:current_stage
 
 
 
 
+            
 
         has_many :before_stage_actions, -> { where(event: 'before').order("position ASC") }, class_name: 'StageAction'
         has_many :after_stage_actions, -> { where(event: 'after').order("position ASC") }, class_name: 'StageAction'
